@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Sheet;
 use Illuminate\Auth\Authenticatable;
 use Jenssegers\Mongodb\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -24,7 +25,7 @@ class User extends Model implements
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'viewed_sheets'
     ];
 
     /**
@@ -35,4 +36,9 @@ class User extends Model implements
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function viewedSheets()
+    {
+        return Sheet::whereIn('_id', $this->viewed_sheets)->get();
+    }
 }
